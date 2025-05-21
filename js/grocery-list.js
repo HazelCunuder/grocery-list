@@ -11,11 +11,13 @@ renderList();
 
 function renderList() {
     shoppingList.innerHTML = "";
-  groceryItems.forEach(item => {
+  groceryItems.forEach((item, index) => {
     const listItem = document.createElement('li');
     const deleteButton = document.createElement('button');
     deleteButton.textContent = "Remove";
     deleteButton.addEventListener("click", function(){
+      groceryItems.splice(index, 1);
+      renderList();
     });
     listItem.textContent = item;
     shoppingList.prepend(listItem);
