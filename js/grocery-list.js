@@ -10,9 +10,31 @@ let groceryItems = [];
 renderList();
 
 function renderList() {
-  console.log("rendering List...");
+    shoppingList.innerHTML = "";
+  groceryItems.forEach(item => {
+    const listItem = document.createElement('li');
+    const deleteButton = document.createElement('button');
+    deleteButton.textContent = "Remove";
+    deleteButton.addEventListener("click", function(){
+    });
+    listItem.textContent = item;
+    shoppingList.prepend(listItem);
+    listItem.append(deleteButton);
+  });
   groceryItems.length === 0 ? emptyMessage.style.display = "block"
   : emptyMessage.style.display = "none";
 };
 
+addButton.addEventListener("click", function(){
+  const newItem = inputField.value;
+  if (newItem.trim() !== ''){
+    groceryItems.push(newItem);
+    inputField.value = "";
+    renderList();
+  }
+});
 
+clearButton.addEventListener("click", function(){
+  groceryItems = [];
+  renderList();
+});
