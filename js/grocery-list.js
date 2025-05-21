@@ -15,13 +15,33 @@ function renderList() {
   groceryItems.forEach((item, index) => {
     const listItem = document.createElement('li');
     const deleteButton = document.createElement('button');
+    const incrementButton = document.createElement('button');
+    const decrementButton = document.createElement('button');
     deleteButton.textContent = "Remove";
+    incrementButton.textContent = "+";
+    decrementButton.textContent = "-";
     deleteButton.addEventListener("click", function(){
       groceryItems.splice(index, 1);
       renderList();
     });
-    listItem.textContent = `${item.quantity}x ${item.name}`;
+    incrementButton.addEventListener('click', function(){
+      groceryItems[index].quantity++;
+      renderList();
+    });
+    decrementButton.addEventListener('click', function(){
+      
+      if (groceryItems[index].quantity > 1) {groceryItems[index].quantity--};
+      renderList();
+    });
+    const itemNameSpan = document.createElement('span');
+    itemNameSpan.textContent = item.name;
+    const itemQuantitySpan = document.createElement('span');
+    itemQuantitySpan.textContent = `${item.quantity} x `;
     shoppingList.prepend(listItem);
+    listItem.append(itemQuantitySpan);
+    listItem.append(itemNameSpan);
+    listItem.append(incrementButton);
+    listItem.append(decrementButton);
     listItem.append(deleteButton);
   });
   groceryItems.length === 0 ? emptyMessage.style.display = "block"
