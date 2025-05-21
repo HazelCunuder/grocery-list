@@ -5,6 +5,7 @@ const clearButton = document.getElementById('clear');
 const emptyMessage = document.getElementById('empty-list');
 const inputField = document.getElementById('input');
 const shoppingList = document.getElementById('shopping-list');
+const itemQuantity = document.getElementById('quantityInput')
 
 let groceryItems = [];
 renderList();
@@ -19,7 +20,7 @@ function renderList() {
       groceryItems.splice(index, 1);
       renderList();
     });
-    listItem.textContent = item;
+    listItem.textContent = `${item.quantity}x ${item.name}`;
     shoppingList.prepend(listItem);
     listItem.append(deleteButton);
   });
@@ -28,10 +29,12 @@ function renderList() {
 };
 
 addButton.addEventListener("click", function(){
+  const quantity = parseInt(itemQuantity.value);
   const newItem = inputField.value;
   if (newItem.trim() !== ''){
-    groceryItems.push(newItem);
+    groceryItems.push({name: newItem, quantity: quantity});
     inputField.value = "";
+    itemQuantity.value = 1;
     renderList();
   }
 });
