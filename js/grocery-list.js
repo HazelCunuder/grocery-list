@@ -1,68 +1,65 @@
 'use strict';
 
-const addButton = document.querySelector('#add');
-const clearButton = document.querySelector('#clear');
-const emptyMessage = document.querySelector('#empty-list');
-const inputField = document.querySelector('#input');
-const shoppingList = document.querySelector('#shopping-list');
+const addButton = document.getElementById('add');
+const clearButton = document.getElementById('clear');
+const emptyMessage = document.getElementById('empty-list');
+const inputField = document.getElementById('input');
+const shoppingList = document.getElementById('shopping-list');
+const itemQuantity = document.getElementById('quantityInput')
 
-window.addEventListener('DOMContentLoaded', () => {
-  const storedItems = getStoredItems();
-  storedItems.forEach(renderItem);
-  updateEmptyMessage();
-});
+let groceryItems = [];
+renderList();
 
-addButton.addEventListener('click', () => {
-  const text = inputField.value.trim();
-  if (!text) return;
-
-  const item = { id: Date.now(), value: text };
-  addItemToStorage(item);
-  renderItem(item);
-
-  inputField.value = '';
-  updateEmptyMessage();
-});
-
-clearButton.addEventListener('click', () => {
-  shoppingList.innerHTML = '';
-  localStorage.removeItem('shoppingList');
-  updateEmptyMessage();
-});
-
-function renderItem(item) {
-  const listItem = document.createElement('li');
-  listItem.dataset.id = item.id;
-
-  const removeButton = document.createElement('button');
-  removeButton.textContent = 'Remove';
-  removeButton.className = 'remove-btn';
-
-  removeButton.addEventListener('click', () => {
-    listItem.remove();
-    removeItemFromStorage(item.id);
-    updateEmptyMessage();
+function renderList() {
+    shoppingList.innerHTML = "";
+  groceryItems.forEach((item, index) => {
+    const listItem = document.createElement('li');
+    const deleteButton = document.createElement('button');
+    const incrementButton = document.createElement('button');
+    const decrementButton = document.createElement('button');
+    deleteButton.textContent = "Remove";
+    incrementButton.textContent = "+";
+    decrementButton.textContent = "-";
+    deleteButton.addEventListener("click", function(){
+      groceryItems.splice(index, 1);
+      renderList();
+    });
+    incrementButton.addEventListener('click', function(){
+      groceryItems[index].quantity++;
+      renderList();
+    });
+    decrementButton.addEventListener('click', function(){
+      
+      if (groceryItems[index].quantity > 1) {groceryItems[index].quantity--};
+      renderList();
+    });
+    const itemNameSpan = document.createElement('span');
+    itemNameSpan.textContent = item.name;
+    const itemQuantitySpan = document.createElement('span');
+    itemQuantitySpan.textContent = `${item.quantity} x `;
+    shoppingList.prepend(listItem);
+    listItem.append(itemQuantitySpan);
+    listItem.append(itemNameSpan);
+    listItem.append(incrementButton);
+    listItem.append(decrementButton);
+    listItem.append(deleteButton);
   });
+  groceryItems.length === 0 ? emptyMessage.style.display = "block"
+  : emptyMessage.style.display = "none";
+};
 
-  listItem.append(item.value, ' ', removeButton);
-  shoppingList.append(listItem);
-}
+addButton.addEventListener("click", function(){
+  const quantity = parseInt(itemQuantity.value);
+  const newItem = inputField.value;
+  if (newItem.trim() !== ''){
+    groceryItems.push({name: newItem, quantity: quantity});
+    inputField.value = "";
+    itemQuantity.value = 1;
+    renderList();
+  }
+});
 
-function getStoredItems() {
-  return JSON.parse(localStorage.getItem('shoppingList')) || [];
-}
-
-function addItemToStorage(item) {
-  const items = getStoredItems();
-  items.push(item);
-  localStorage.setItem('shoppingList', JSON.stringify(items));
-}
-
-function removeItemFromStorage(id) {
-  const items = getStoredItems().filter((item) => item.id !== id);
-  localStorage.setItem('shoppingList', JSON.stringify(items));
-}
-
-function updateEmptyMessage() {
-  emptyMessage.classList.toggle('hidden', shoppingList.children.length > 0);
-}
+clearButton.addEventListener("click", function(){
+  groceryItems = [];
+  renderList();
+});
