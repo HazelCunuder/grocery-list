@@ -1,0 +1,21 @@
+input[type="text"],
+input[type="number"] {
+  padding: $padding-small;
+  border: 1px solid $border-color;
+  border-radius: $border-radius;
+  font-size: 1rem;
+  flex-grow: 1; // Allow text input to grow
+  min-width: 120px; // Minimum width before wrapping
+
+  &:focus {
+    outline: none;
+    border-color: $tertiary-color;
+    box-shadow: 0 0 0 2px lighten($tertiary-color, 30%);
+  }
+}
+
+input[type="number"] {
+  width: 60px; // Specific width for quantity
+  text-align: center;
+  flex-grow: 0; // Don't let it grow as much as text input
+}
