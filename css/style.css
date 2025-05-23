@@ -40,4 +40,19 @@ table {
   border-spacing: 0;
 }
 
+header {
+  width: 100%;
+  background: #C8B6FF;
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+  justify-content: center;
+}
+header h1 {
+  font-size: 2em;
+  font-family: "Lucida Sans", sans-serif;
+  font-weight: bold;
+  align-self: center;
+}
+
 /*# sourceMappingURL=style.css.map */
