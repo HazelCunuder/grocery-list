@@ -1,0 +1,42 @@
+input[type="button"] {
+  &#add {
+    @include button-styles($primary-color);
+    flex-grow: 1; 
+  }
+
+  &#clear {
+    @include button-styles($secondary-color);
+    flex-grow: 1; 
+  }
+}
+
+#shopping-list li {
+  button {
+    &:nth-of-type(1) {
+      @include button-styles($tertiary-color);
+      width: 30px; 
+      height: 30px;
+      padding: 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:nth-of-type(2) {
+      @include button-styles($tertiary-color);
+      width: 30px;
+      height: 30px;
+      padding: 0;
+      font-size: 1.1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    &:nth-of-type(3) {
+      @include button-styles($secondary-color);
+      margin-left: auto; 
+    }
+  }
+}
